@@ -9,6 +9,8 @@ const resolvers = {
   },
   Mutation: {
     async createLink(root, { url, slug }, { models }) {
+      // TODO: Check for uniquness of slug values
+      // TODO: Create resuable function to append a non-unique slug value with a ranomly generated slug value
       const characters =
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
       let newSlug = "";
@@ -25,7 +27,7 @@ const resolvers = {
 
       return models.Link.create({
         url,
-        slug: newSlug
+        slug: `https://samslinks.com/${newSlug}`
       });
     }
   }
