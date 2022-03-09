@@ -10,19 +10,28 @@ const resolvers = {
   Mutation: {
     async createLink(root, { url, slug }, { models }) {
       // TODO: Check for uniquness of slug values
-      // TODO: Create resuable function to append a non-unique slug value with a ranomly generated slug value
-      const characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+      const randomSlugGen = (num) => {
+        const characters =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+        let randomSlug = "";
+
+        for (let i = 0; i < num; i++) {
+          randomSlug += characters.charAt(
+            Math.floor(Math.random() * characters.length)
+          );
+        }
+
+        return randomSlug;
+      };
+
       let newSlug = "";
 
       if (slug) {
         newSlug = slug;
       } else {
-        for (let i = 0; i < 4; i++) {
-          newSlug += characters.charAt(
-            Math.floor(Math.random() * characters.length)
-          );
-        }
+        newSlug = randomSlugGen(4);
       }
 
       return models.Link.create({
