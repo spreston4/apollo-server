@@ -1,3 +1,5 @@
+const { slugGen } = require("./utils/slugGen");
+
 const resolvers = {
   Query: {
     async getLink(root, { id }, { models }) {
@@ -10,28 +12,15 @@ const resolvers = {
   Mutation: {
     async createLink(root, { url, slug }, { models }) {
       // TODO: Check for uniquness of slug values
-
-      const randomSlugGen = (num) => {
-        const characters =
-          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-        let randomSlug = "";
-
-        for (let i = 0; i < num; i++) {
-          randomSlug += characters.charAt(
-            Math.floor(Math.random() * characters.length)
-          );
-        }
-
-        return randomSlug;
-      };
+      // TODO: Validate value of url (ensure a link is passed & and no blanks)
+      // TODO: Return Error message if blank? Validate on front end?
 
       let newSlug = "";
 
       if (slug) {
         newSlug = slug;
       } else {
-        newSlug = randomSlugGen(4);
+        newSlug = slugGen(4);
       }
 
       return models.Link.create({
